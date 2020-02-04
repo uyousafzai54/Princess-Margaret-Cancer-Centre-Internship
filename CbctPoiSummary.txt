@@ -1,0 +1,39 @@
+Sub CbctPoiSummary(cb As Workbook, studiesIndex As Integer, studies As Variant)
+Dim j As Integer
+j = 1
+Do While j <= 4
+Dim i As Integer
+Dim val() As Double
+Dim st() As Double
+Dim name As Variant
+i = 1
+Do While Len(Workbooks(studies(studiesIndex)).Worksheets("CbctPoiSummary").Cells(15 * i - 11, 6 * j - 1)) > 0
+     i = i + 1
+Loop
+name = Workbooks(studies(studiesIndex)).Worksheets("CbctPoiSummary").Cells(1, 6 * j - 5)
+cb.Worksheets("CbctPoiSummary").Cells(8 * (studiesIndex) - 6, 3 * j - 2).Value = name
+cb.Worksheets("CbctPoiSummary").Cells(8 * (studiesIndex) - 6, 3 * j - 2).Interior.ColorIndex = 8
+ReDim val(1 To (i - 1))
+ReDim st(1 To (i - 1))
+Dim k As Integer
+
+k = i - 1
+For i = 1 To k
+     val(i) = Workbooks(studies(studiesIndex)).Worksheets("CbctPoiSummary").Cells(15 * i - 11, 6 * j - 1).Value
+     st(i) = Workbooks(studies(studiesIndex)).Worksheets("CbctPoiSummary").Cells(15 * i - 10, 6 * j - 1).Value
+Next i
+cb.Worksheets("CbctPoiSummary").Cells(8 * (studiesIndex) - 5, 3 * j - 1).Value = Application.Average(val)
+Dim stt As Double
+stt = 0
+For i = 1 To k
+    stt = (st(i) ^ 2) + stt
+Next i
+stt = Sqr(stt)
+stt = stt / (UBound(st) - LBound(st) + 1)
+cb.Worksheets("CbctPoiSummary").Cells(8 * (studiesIndex) - 4, 3 * j - 1).Value = stt
+cb.Worksheets("CbctPoiSummary").Cells(8 * (studiesIndex) - 3, 3 * j - 1).Value = Application.Min(val)
+cb.Worksheets("CbctPoiSummary").Cells(8 * (studiesIndex) - 2, 3 * j - 1).Value = Application.Max(val)
+cb.Worksheets("CbctPoiSummary").Cells(8 * (studiesIndex) - 1, 3 * j - 1).Value = Application.Average(val) / stt
+j = j + 1
+Loop
+End Sub

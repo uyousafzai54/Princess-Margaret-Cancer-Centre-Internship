@@ -1,0 +1,41 @@
+Sub RigidPoiSummary(cb As Workbook, studies As Variant, studiesIndex As Integer)
+Dim j As Integer
+j = 1
+Dim i As Integer
+Dim val() As Double
+Dim st() As Double
+Dim name As Variant
+i = 1
+Do While Len(Workbooks(studies(studiesIndex)).Worksheets("RigidPoiSummary").Cells(15 * i - 11, 5)) > 0
+     i = i + 1
+Loop
+cb.Worksheets("PoiSummary").Cells(8 * (studiesIndex) - 5, 24).Value = "Metric"
+cb.Worksheets("PoiSummary").Cells(8 * (studiesIndex) - 5, 24).Interior.ColorIndex = 8
+ReDim val(1 To (i - 1))
+ReDim st(1 To (i - 1))
+Dim k As Integer
+
+k = i - 1
+For i = 1 To k
+     val(i) = Workbooks(studies(studiesIndex)).Worksheets("RigidPoiSummary").Cells(15 * i - 11, 5).Value
+     st(i) = Workbooks(studies(studiesIndex)).Worksheets("RigidPoiSummary").Cells(15 * i - 10, 5).Value
+Next i
+cb.Worksheets("PoiSummary").Cells(8 * (studiesIndex) - 4, 25).Value = Application.Average(val)
+cb.Worksheets("PoiSummary").Cells(8 * (studiesIndex) - 4, 25).NumberFormat = "0.00"
+Dim stt As Double
+stt = 0
+For i = 1 To k
+    stt = (st(i) ^ 2) + stt
+Next i
+stt = stt / (UBound(st) - LBound(st) + 1)
+stt = Sqr(stt)
+
+cb.Worksheets("PoiSummary").Cells(8 * (studiesIndex) - 3, 25).Value = stt
+cb.Worksheets("PoiSummary").Cells(8 * (studiesIndex) - 3, 25).NumberFormat = "0.00"
+cb.Worksheets("PoiSummary").Cells(8 * (studiesIndex) - 2, 25).Value = Application.Min(val)
+cb.Worksheets("PoiSummary").Cells(8 * (studiesIndex) - 2, 25).NumberFormat = "0.00"
+cb.Worksheets("PoiSummary").Cells(8 * (studiesIndex) - 1, 25).Value = Application.Max(val)
+cb.Worksheets("PoiSummary").Cells(8 * (studiesIndex) - 1, 25).NumberFormat = "0.00"
+cb.Worksheets("PoiSummary").Cells(8 * (studiesIndex), 25).Value = Application.Average(val) / stt
+cb.Worksheets("PoiSummary").Cells(8 * (studiesIndex), 25).NumberFormat = "0.00"
+End Sub

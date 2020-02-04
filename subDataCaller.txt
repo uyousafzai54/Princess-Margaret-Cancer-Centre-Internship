@@ -1,0 +1,39 @@
+Sub copyDataCaller()
+Dim wb As Workbook
+Dim cb As Workbook
+Set cb = ThisWorkbook
+Dim caller As Integer
+Dim r As String
+Dim studies(1 To 10) As String
+Dim studiesIndex As Integer
+studiesIndex = 1
+caller = 1
+
+studies(1) = "Study19.xlsx"
+studies(2) = "Study16.xlsx"
+studies(3) = "Study2.xlsx"
+studies(4) = "Study3.xlsx"
+studies(5) = "Study7.xlsx"
+studies(6) = "Study13.xlsx"
+studies(7) = "Study14.xlsx"
+studies(8) = "Study15.xlsx"
+studies(9) = "Study18_Roi.xlsx"
+studies(10) = "Study6.xlsx"
+
+
+
+Do While studiesIndex <= 10
+Debug.Print (studiesIndex)
+Workbooks(studies(studiesIndex)).Activate
+Call copyData(cb, caller, studies, 4, studiesIndex)
+If studies(studiesIndex) = "Study6.xlsx" Or studies(studiesIndex) = "Study18_Roi.xlsx" Then
+    caller = caller + 1
+    Call copyData(cb, caller, studies, 13, studiesIndex)
+End If
+studiesIndex = studiesIndex + 1
+caller = caller + 1
+Loop
+
+
+
+End Sub

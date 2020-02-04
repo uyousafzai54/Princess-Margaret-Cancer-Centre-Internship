@@ -1,0 +1,31 @@
+Sub poiCopyCaller()
+
+Dim wb As Workbook
+Dim cb As Workbook
+Set cb = ThisWorkbook
+
+Dim studies(1 To 10) As String
+Dim studiesIndex As Integer
+studiesIndex = 1
+studies(1) = "Study19.xlsx"
+studies(2) = "Study16.xlsx"
+studies(3) = "Study2.xlsx"
+studies(4) = "Study3.xlsx"
+studies(5) = "Study7.xlsx"
+studies(6) = "Study13.xlsx"
+studies(7) = "Study14.xlsx"
+studies(8) = "Study15.xlsx"
+studies(9) = "Study6.xlsx"
+
+
+
+Do While studiesIndex <= 9
+    Workbooks(studies(studiesIndex)).Activate
+    Debug.Print (studiesIndex)
+    Call copyDirPoiData(cb, studiesIndex, studies)
+    Call rigidPoiCopyData(cb, studiesIndex, studies)
+    studiesIndex = studiesIndex + 1
+Loop
+
+End Sub
+

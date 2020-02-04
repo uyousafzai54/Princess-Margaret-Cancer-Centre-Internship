@@ -1,0 +1,39 @@
+Sub rigidPoiCopyData(cb As Workbook, studiesIndex As Integer, studies As Variant)
+
+Dim b As Integer
+b = 1
+Do While IsNumeric(Workbooks(studies(studiesIndex)).Worksheets("RigidPoiDetails").Cells(b + 2, 2))
+    b = b + 1
+Loop
+
+
+Dim size As Integer
+Dim val(1 To 13) As Double
+Dim sd(1 To 13) As Double
+Dim i As Integer
+i = 1
+'Dim name() As String'
+
+Do While Len(Workbooks(studies(studiesIndex)).Worksheets("RigidPoiSummary").Cells(15 * i - 11, 5)) > 0
+    Debug.Print (i)
+    Debug.Print (j)
+    val(i) = Workbooks(studies(studiesIndex)).Worksheets("RigidPoiSummary").Cells(15 * i - 11, 5)
+    sd(i) = Workbooks(studies(studiesIndex)).Worksheets("RigidPoiSummary").Cells(15 * i - 10, 5)
+    i = i + 1
+Loop
+
+size = i - 1
+
+Dim n As Integer
+For n = 1 To size
+    cb.Worksheets("PoiSummary").Cells(n + 3 + 8 * (studiesIndex - 1), 29) = val(n)
+    cb.Worksheets("PoiSummary").Cells(n + 3 + 8 * (studiesIndex - 1), 29).NumberFormat = "0.00"
+    cb.Worksheets("PoiSummary").Cells(n + 3 + 8 * (studiesIndex - 1), 30) = sd(n)
+    cb.Worksheets("PoiSummary").Cells(n + 3 + 8 * (studiesIndex - 1), 30).NumberFormat = "0.00"
+Next n
+Dim z As Integer
+For z = 1 To size
+    cb.Worksheets("PoiSummary").Cells(z + 3 + 8 * (studiesIndex - 1), 28) = b - 2
+Next z
+End Sub
+

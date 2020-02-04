@@ -1,0 +1,93 @@
+Sub copyData(cb As Workbook, studiesIndex As Integer, studies As Variant, num As Integer, opener As Integer)
+Dim j As Integer
+Dim h As Integer
+Dim name() As String
+'name = Split(studies(studiesIndex), ".")'
+'cb.Worksheets("RoiAnalysis").Cells((studiesIndex - 1) * 29 + 3, 11) = name(0)'
+j = 1
+Do While j <= 4
+Dim i As Integer
+Dim val() As Double
+Dim r As String
+Dim myRange As Range
+
+i = num
+
+Debug.Print (i)
+Debug.Print (studiesIndex)
+Do While Len(Workbooks(studies(opener)).Worksheets("RoiAnalysis").Cells(i, 1)) > 0
+     i = i + 1
+Loop
+ReDim val(1 To i - num)
+
+'DICE'
+Dim k As Integer
+For k = 1 To i - num
+    val(k) = Workbooks(studies(opener)).Worksheets("RoiAnalysis").Cells(num - 1 + k, 8 * j - 4)
+Next k
+For k = 1 To i - num
+    cb.Worksheets("RoiAnalysis").Cells(k + 2 + (studiesIndex - 1) * 29, 6 * j + 7) = val(k)
+    cb.Worksheets("RoiAnalysis").Cells(k + 2 + (studiesIndex - 1) * 29, 6 * j + 7).NumberFormat = "0.00"
+Next k
+
+'DICE Rigid'
+For k = 1 To i - num
+    val(k) = Workbooks(studies(opener)).Worksheets("RoiAnalysis").Cells(num - 1 + k, 8 * j - 1)
+Next k
+For k = 1 To i - num
+    cb.Worksheets("RoiAnalysis").Cells(k + 2 + (studiesIndex - 1) * 29, 6 * j + 8) = val(k)
+    cb.Worksheets("RoiAnalysis").Cells(k + 2 + (studiesIndex - 1) * 29, 6 * j + 8).NumberFormat = "0.00"
+    Debug.Print (k)
+Next k
+
+'DEFORMED VOLUME CONTOUR'
+For k = 1 To i - num
+    val(k) = Workbooks(studies(opener)).Worksheets("RoiAnalysis").Cells(num - 1 + k, 8 * j - 5)
+Next k
+For k = 1 To i - num
+    cb.Worksheets("RoiAnalysis").Cells(k + 2 + (studiesIndex - 1) * 29, 6 * j + 9) = val(k)
+    cb.Worksheets("RoiAnalysis").Cells(k + 2 + (studiesIndex - 1) * 29, 6 * j + 9).NumberFormat = "0.00"
+    Debug.Print (k)
+Next k
+
+'MEAN DISTANCE'
+For k = 1 To i - num
+    val(k) = Workbooks(studies(opener)).Worksheets("RoiAnalysis").Cells(num - 1 + k, 8 * j - 3)
+Next k
+For k = 1 To i - num
+    cb.Worksheets("RoiAnalysis").Cells(k + 2 + (studiesIndex - 1) * 29, 6 * j + 10) = val(k)
+    cb.Worksheets("RoiAnalysis").Cells(k + 2 + (studiesIndex - 1) * 29, 6 * j + 10).NumberFormat = "0.00"
+    Debug.Print (k)
+Next k
+
+'MEAN DISTANCE RIGID'
+For k = 1 To i - num
+    val(k) = Workbooks(studies(opener)).Worksheets("RoiAnalysis").Cells(num - 1 + k, 8 * j)
+Next k
+For k = 1 To i - num
+    cb.Worksheets("RoiAnalysis").Cells(k + 2 + (studiesIndex - 1) * 29, 6 * j + 11) = val(k)
+    cb.Worksheets("RoiAnalysis").Cells(k + 2 + (studiesIndex - 1) * 29, 6 * j + 11).NumberFormat = "0.00"
+    Debug.Print (k)
+Next k
+
+'JACOBIAN DETERMINANT'
+Dim DVR() As Double
+ReDim DVR(1 To i - num)
+Dim b As Integer
+For b = 1 To (i - num)
+    Debug.Print (i)
+    DVR(b) = Workbooks(studies(opener)).Worksheets("RoiAnalysis").Cells(num - 1 + b, 2).Value / Workbooks(studies(opener)).Worksheets("RoiAnalysis").Cells(num - 1 + b, 8 * j - 5).Value
+Next b
+For b = 1 To (i - num)
+    cb.Worksheets("RoiAnalysis").Cells(b + 2 + (studiesIndex - 1) * 29, 6 * j + 12) = DVR(b)
+    cb.Worksheets("RoiAnalysis").Cells(b + 2 + (studiesIndex - 1) * 29, 6 * j + 12).NumberFormat = "0.00"
+Next b
+
+
+
+
+j = j + 1
+
+
+Loop
+End Sub

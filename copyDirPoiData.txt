@@ -1,0 +1,48 @@
+Sub copyDirPoiData(cb As Workbook, studiesIndex As Integer, studies As Variant)
+Dim j As Integer
+j = 1
+Dim b As Integer
+b = 1
+Do While IsNumeric(Workbooks(studies(studiesIndex)).Worksheets("PoiDetails").Cells(b + 2, 2))
+    b = b + 1
+Loop
+
+
+Do While j <= 4
+
+Dim size As Integer
+Dim val(1 To 13) As Double
+Dim sd(1 To 13) As Double
+Dim i As Integer
+i = 1
+'Dim name() As String'
+
+Do While Len(Workbooks(studies(studiesIndex)).Worksheets("PoiSummary").Cells(15 * i - 11, 6 * j - 1)) > 0
+    Debug.Print (i)
+    Debug.Print (j)
+    val(i) = Workbooks(studies(studiesIndex)).Worksheets("PoiSummary").Cells(15 * i - 11, 6 * j - 1)
+    sd(i) = Workbooks(studies(studiesIndex)).Worksheets("PoiSummary").Cells(15 * i - 10, 6 * j - 1)
+    i = i + 1
+Loop
+
+size = i - 1
+Dim m As Integer
+For m = 1 To size
+    cb.Worksheets("PoiSummary").Cells(m + 3 + 8 * (studiesIndex - 1), 14) = size
+Next m
+
+
+Dim n As Integer
+For n = 1 To size
+    cb.Worksheets("PoiSummary").Cells(n + 3 + 8 * (studiesIndex - 1), 2 * j + 13) = val(n)
+    cb.Worksheets("PoiSummary").Cells(n + 3 + 8 * (studiesIndex - 1), 2 * j + 13).NumberFormat = "0.00"
+    cb.Worksheets("PoiSummary").Cells(n + 3 + 8 * (studiesIndex - 1), 2 * j + 14) = sd(n)
+    cb.Worksheets("PoiSummary").Cells(n + 3 + 8 * (studiesIndex - 1), 2 * j + 14).NumberFormat = "0.00"
+Next n
+j = j + 1
+Loop
+Dim z As Integer
+For z = 1 To size
+    cb.Worksheets("PoiSummary").Cells(z + 3 + 8 * (studiesIndex - 1), 14) = b - 2
+Next z
+End Sub
